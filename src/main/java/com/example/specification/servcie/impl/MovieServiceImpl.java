@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,14 +29,21 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.findAll(specification);
     }
 
+    @Override
+    public List<Movie> getByRatingAndTitleSearch() {
+        return movieRepository.findAll(getByRatingAndTitle());
+    }
 
 
+    public Specification<Movie> getByRatingAndTitle() {
+        return (root, query, criteriaBuilder) -> {
+            query.groupBy(root.get("title"),root.get("id")).orderBy(criteriaBuilder.desc(root.get("rating")));
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("rating"), 5.0));
+            predicates.add(criteriaBuilder.like(root.get("title"), "%"+"Ava"+"%"));
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
 
-
-
-
-    public Specification<Movie> getByRating() {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.greaterThan(root.get("rating"), 5.0);
+        };
     }
 
     @Override
@@ -42,10 +52,6 @@ public class MovieServiceImpl implements MovieService {
         specification.add(new SearchCriteria("title", "Avatar", SearchOperation.MATCH));
         return movieRepository.findAll(specification);
     }
-    @Override
-    public List<Movie> getByRatingCriteria() {
-        Specification<Movie> specification = getByRating();
-        return movieRepository.findAll(specification);
-    }
+
 
 }

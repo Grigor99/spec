@@ -65,6 +65,7 @@ public class MovieSpecification implements Specification<Movie> {
             }
         }
 
+
         return builder.and(predicates.toArray(new Predicate[0]));
     }
 }

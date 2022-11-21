@@ -24,4 +24,9 @@ public class MovieController {
         return ResponseEntity.ok(movieService.search(searchCriteriaList));
     }
 
+    @GetMapping("/mat")
+    public ResponseEntity<List<Movie>> getByRatingAndTitle() {
+        return ResponseEntity.ok(movieService.getByRatingAndTitleSearch());
+    }
+
 }
