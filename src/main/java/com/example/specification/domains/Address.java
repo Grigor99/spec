@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 
-
 @Setter
 @Getter
 @NoArgsConstructor
@@ -13,19 +12,16 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString
 @Entity
-public class Movie implements Serializable {
-
+public class Address implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-    private String genre;
-    private double rating;
-    private double watchTime;
-    private int releaseYear;
-
-    @ManyToOne
-    @JoinColumn(name = "cinema_id",nullable = false)
+    @OneToOne(mappedBy = "address")
     private Cinema cinema;
+
+    private String city;
+
+    private String country;
+
 }
