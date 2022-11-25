@@ -4,6 +4,7 @@ package com.example.specification.repositories.custom;
 import com.example.specification.domains.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,6 +30,7 @@ public class MovieCustomRepositoryImpl implements MovieCustomRepository {
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<MovieComments> findByJoin(Double rating, String comment) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
