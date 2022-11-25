@@ -1,22 +1,21 @@
 package com.example.specification.servcie.impl;
 
 import com.example.specification.domains.Movie;
+import com.example.specification.domains.MovieComments;
 import com.example.specification.repositories.MovieRepository;
 import com.example.specification.repositories.specs.MovieSpecification;
 import com.example.specification.repositories.specs.SearchCriteria;
 import com.example.specification.servcie.abst.MovieService;
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
-    @PersistenceContext
-    private final EntityManager em;
+
 
     private final MovieRepository movieRepository;
 
@@ -33,6 +32,12 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.findAllByTitleLike(title);
     }
 
+    @Override
+    public List<MovieComments> findByJoin(Double rate, String comment) {
+        return movieRepository.findByJoin(rate, comment);
+    }
+
+//
 //
 //    @Override
 //    public List<Movie> getByRatingAndTitleSearch() {
