@@ -41,7 +41,7 @@ public class MovieCustomRepositoryImpl implements MovieCustomRepository {
                 .select(qMovieComments)
                 .leftJoin(qMovie.movieComments, qMovieComments)
                 .on(qMovie.id.eq(qMovieComments.movie.id))
-                .where(qMovie.rating.gt(rating).and(qMovieComments.comment.like("%" + comment + "%")))
+                .where(qMovie.rating.gt(rating).and(qMovieComments.comment.likeIgnoreCase("%" + comment + "%")))
                 .groupBy(qMovie.title, qMovie.id, qMovieComments.id)
                 .orderBy(qMovie.rating.asc())
                 .fetch();
