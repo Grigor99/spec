@@ -1,41 +1,41 @@
 package com.example.specification.domains;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
-
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Movie{
-
+@Table(name = "movie_comments")
+public class MovieComments{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-    private String genre;
-    private double rating;
-    private double watchTime;
-    private int releaseYear;
+    private String comment;
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "movie", cascade = { CascadeType.ALL })
-    private List<MovieComments> movieComments;
+    private Integer rank;
+
+    @ManyToOne
+    @JsonManagedReference
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Movie movie = (Movie) o;
-        return id != null && Objects.equals(id, movie.id);
+        MovieComments that = (MovieComments) o;
+        return id != null && Objects.equals(id, that.id);
     }
 
     @Override

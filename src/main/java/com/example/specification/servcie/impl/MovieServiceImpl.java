@@ -10,7 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Expression;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
+    @PersistenceContext
+    private final EntityManager em;
 
     private final MovieRepository movieRepository;
 
@@ -30,6 +33,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public List<Movie> findAllByTitleLike(String title) {
+        return movieRepository.findAllByTitleLike(title);
+    }
+
+
+    @Override
     public List<Movie> getByRatingAndTitleSearch() {
         return movieRepository.findAll(getByRatingAndTitle());
     }
@@ -37,10 +46,10 @@ public class MovieServiceImpl implements MovieService {
 
     public Specification<Movie> getByRatingAndTitle() {
         return (root, query, criteriaBuilder) -> {
-            query.groupBy(root.get("title"),root.get("id")).orderBy(criteriaBuilder.desc(root.get("rating")));
+            query.groupBy(root.get("title"), root.get("id")).orderBy(criteriaBuilder.desc(root.get("rating")));
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("rating"), 5.0));
-            predicates.add(criteriaBuilder.like(root.get("title"), "%"+"Ava"+"%"));
+            predicates.add(criteriaBuilder.like(root.get("title"), "%" + "Ava" + "%"));
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
 
         };
