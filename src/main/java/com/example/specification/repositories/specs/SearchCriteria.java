@@ -1,5 +1,6 @@
 package com.example.specification.repositories.specs;
 
+import com.example.specification.repositories.specs.enumaration.SearchOperation;
 import lombok.*;
 
 @Getter

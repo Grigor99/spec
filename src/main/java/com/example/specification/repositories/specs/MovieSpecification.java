@@ -1,6 +1,7 @@
 package com.example.specification.repositories.specs;
 
 import com.example.specification.domains.Movie;
+import com.example.specification.repositories.specs.enumaration.SearchOperation;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;

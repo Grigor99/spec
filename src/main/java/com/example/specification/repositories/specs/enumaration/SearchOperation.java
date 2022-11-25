@@ -1,4 +1,4 @@
-package com.example.specification.repositories.specs;
+package com.example.specification.repositories.specs.enumaration;
 
 public enum SearchOperation {
     GREATER_THAN,
