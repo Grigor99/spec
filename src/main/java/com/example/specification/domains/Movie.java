@@ -2,44 +2,43 @@ package com.example.specification.domains;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-import org.hibernate.Hibernate;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
-
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Setter
 @Getter
+@ToString
+@DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class Movie{
-
+@Table(name = "movie")
+@Entity(name = "Movie")
+public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
     private String genre;
-    private double rating;
-    private double watchTime;
-    private int releaseYear;
-
+    private Double rating;
+    private Double watchTime;
+    private Integer releaseYear;
+    @ToString.Exclude
     @JsonBackReference
-    @OneToMany(mappedBy = "movie", cascade = { CascadeType.ALL })
-    private List<MovieComments> movieComments;
+    @OneToMany(mappedBy = "movie", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private Set<MovieComment> movieComments = new LinkedHashSet<>();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Movie movie = (Movie) o;
-        return id != null && Objects.equals(id, movie.id);
+    public void addMovieComment(MovieComment comment) {
+        movieComments.add(comment);
+        comment.setMovie(this);
     }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
+    public void removeComment(MovieComment comment) {
+        movieComments.remove(comment);
+        comment.setMovie(null);
     }
 }

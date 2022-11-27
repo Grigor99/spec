@@ -1,10 +1,9 @@
 package com.example.specification.controller;
 
 import com.example.specification.domains.Movie;
-import com.example.specification.domains.MovieComments;
+import com.example.specification.domains.MovieComment;
 import com.example.specification.repositories.specs.SearchCriteria;
 import com.example.specification.servcie.abst.MovieService;
-import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/movies")
 public class MovieController {
-
     private final MovieService movieService;
 
     @GetMapping
@@ -24,15 +22,12 @@ public class MovieController {
     }
 
     @GetMapping("/join")
-    public ResponseEntity<List<MovieComments>> getByJoin(@RequestParam Double rating, @RequestParam String comment) {
+    public ResponseEntity<List<MovieComment>> getByJoin(@RequestParam Double rating, @RequestParam String comment) {
         return ResponseEntity.ok(movieService.findByJoin(rating, comment));
     }
-
 
     @GetMapping("/like")
     public ResponseEntity<List<Movie>> getByTitleLike(@RequestParam(name = "title") String title) {
         return ResponseEntity.ok(movieService.findAllByTitleLike(title));
     }
-
-
 }

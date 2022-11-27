@@ -1,41 +1,37 @@
 package com.example.specification.domains;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.Hibernate;
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Setter
 @Getter
+@ToString
+@DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "movie_comments")
-public class MovieComments{
+@Table(name = "movie_comment")
+@Entity(name = "Movie_Comment")
+public class MovieComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String comment;
-
     private Integer rank;
-
-    @ManyToOne
+    @ToString.Exclude
     @JsonManagedReference
-    @JoinColumn(name = "movie_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Movie movie;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        MovieComments that = (MovieComments) o;
-        return id != null && Objects.equals(id, that.id);
+        if (!(o instanceof MovieComment)) return false;
+        return id != null && id.equals(((MovieComment) o).getId());
     }
 
     @Override

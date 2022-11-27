@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MovieRepository extends CrudRepository<Movie,Long>, MovieCustomRepository, JpaSpecificationExecutor<Movie> {
+public interface MovieRepository extends CrudRepository<Movie, Long>, MovieCustomRepository, JpaSpecificationExecutor<Movie> {
 
     Movie getByTitle(String name);
 
