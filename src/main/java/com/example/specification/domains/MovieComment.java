@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Setter
 @Getter
-@ToString
+//@ToString
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
@@ -22,7 +22,7 @@ public class MovieComment {
     private Long id;
     private String comment;
     private Integer rank;
-    @ToString.Exclude
+//    @ToString.Exclude
     @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     private Movie movie;

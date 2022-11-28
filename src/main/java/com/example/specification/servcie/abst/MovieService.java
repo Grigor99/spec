@@ -11,5 +11,5 @@ public interface MovieService {
 
     List<Movie> findAllByTitleLike(String title);
 
-    List<MovieComment> findByJoin(Double rate, String comment);
+    List<?> findByJoin(Double rate, String comment);
 }

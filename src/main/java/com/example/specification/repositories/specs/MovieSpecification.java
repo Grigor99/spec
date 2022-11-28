@@ -45,7 +45,7 @@ public class MovieSpecification implements Specification<Movie> {
                         predicates.add(builder.like(builder.lower(root.get(criteria.key())), "%" + criteria.value().toString().toLowerCase()));
                 case IN -> predicates.add(builder.in(root.get(criteria.key())).value(criteria.value()));
                 case NOT_IN -> predicates.add(builder.not(root.get(criteria.key())).in(criteria.value()));
-                case null,default -> throw new RuntimeException("not supported operation");
+                default -> throw new RuntimeException("not supported operation");
             }
         });
         return builder.and(predicates.toArray(new Predicate[0]));

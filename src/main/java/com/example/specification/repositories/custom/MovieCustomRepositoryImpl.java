@@ -14,6 +14,7 @@ import java.util.List;
 import static com.example.specification.domains.QMovie.movie;
 import static com.example.specification.domains.QMovieComment.movieComment;
 
+
 @RequiredArgsConstructor
 public class MovieCustomRepositoryImpl implements MovieCustomRepository {
     @PersistenceContext
@@ -28,19 +29,18 @@ public class MovieCustomRepositoryImpl implements MovieCustomRepository {
 
     @Override
     @Transactional(readOnly = true)
-    public List<MovieComment> findByJoin(Double rating, String comment) {
+    public List<Movie> findByJoin(Double rating, String comment) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QMovie qMovie = movie;
         QMovieComment qMovieComments = movieComment;
         return Collections.unmodifiableList(
-                queryFactory.
-                        selectFrom(qMovie)
-                        .select(qMovieComments)
-                        .leftJoin(qMovie.movieComments, qMovieComments)
+                queryFactory
+                        .selectFrom(qMovie)
+                        .join(qMovie.movieComments, qMovieComments)
                         .on(qMovie.id.eq(qMovieComments.movie.id))
                         .where(qMovie.rating.gt(rating).and(qMovieComments.comment.likeIgnoreCase("%" + comment + "%")))
                         .groupBy(qMovie.title, qMovie.id, qMovieComments.id)
                         .orderBy(qMovie.rating.asc())
-                        .fetch());
+                        .stream().toList());
     }
 }

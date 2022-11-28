@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Setter
 @Getter
-@ToString
+//@ToString
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
@@ -25,9 +25,11 @@ public class Movie {
     private String title;
     private String genre;
     private Double rating;
+    @Column(name = "watch_time")
     private Double watchTime;
+    @Column(name = "release_year")
     private Integer releaseYear;
-    @ToString.Exclude
+//    @ToString.Exclude
     @JsonBackReference
     @OneToMany(mappedBy = "movie", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private Set<MovieComment> movieComments = new LinkedHashSet<>();

@@ -21,13 +21,14 @@ public class MovieController {
         return ResponseEntity.ok(movieService.search(searchCriteriaList));
     }
 
-    @GetMapping("/join")
-    public ResponseEntity<List<MovieComment>> getByJoin(@RequestParam Double rating, @RequestParam String comment) {
+    @GetMapping("/rating={rating}&comment={comment}")
+    public ResponseEntity<List<?>> getByJoin(@PathVariable(name = "rating") Double rating,
+                                                        @PathVariable(name = "comment") String comment) {
         return ResponseEntity.ok(movieService.findByJoin(rating, comment));
     }
 
-    @GetMapping("/like")
-    public ResponseEntity<List<Movie>> getByTitleLike(@RequestParam(name = "title") String title) {
-        return ResponseEntity.ok(movieService.findAllByTitleLike(title));
-    }
+//    @GetMapping("")
+//    public ResponseEntity<List<Movie>> getByTitleLike(@RequestParam(name = "title") String title) {
+//        return ResponseEntity.ok(movieService.findAllByTitleLike(title));
+//    }
 }

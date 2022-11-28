@@ -29,7 +29,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<MovieComment> findByJoin(Double rate, String comment) {
+    public List<?> findByJoin(Double rate, String comment) {
         return movieRepository.findByJoin(rate, comment);
     }
 
