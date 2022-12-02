@@ -1,7 +1,6 @@
 package com.example.specification.repositories;
 
 import com.example.specification.domains.Movie;
-import com.example.specification.domains.MovieComment;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -46,6 +45,10 @@ class MovieRepositoryTest {
         //then
         then(movie2.getId()).isNotNull();
         then(list).isEqualTo(persisted);
+//        assertThat(movie1).isEqualTo()
+//                .isNotNull()
+//                .has
+
     }
 
     @Test
