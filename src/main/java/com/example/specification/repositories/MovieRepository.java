@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface MovieRepository extends CrudRepository<Movie, Long>, MovieCustomRepository, JpaSpecificationExecutor<Movie> {
 
-    Movie getByTitle(String name);
+    List<Movie> getByTitle(String name);
 
-    List<Movie> findByTitleIgnoreCase(String title);
+    List<Movie> findByRatingBetween(Double min,Double max);
 }

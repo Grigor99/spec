@@ -7,10 +7,12 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Setter
 @Getter
+@Builder(toBuilder = true)
 //@ToString
 @DynamicInsert
 @DynamicUpdate
@@ -31,8 +33,17 @@ public class Movie {
     private Integer releaseYear;
 //    @ToString.Exclude
     @JsonBackReference
-    @OneToMany(mappedBy = "movie", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "movie", cascade = {CascadeType.MERGE}, orphanRemoval = true)
     private Set<MovieComment> movieComments = new LinkedHashSet<>();
+
+    public Movie(Long id, String title, String genre, Double rating, Double watchTime, Integer releaseYear) {
+        this.id = id;
+        this.title = title;
+        this.genre = genre;
+        this.rating = rating;
+        this.watchTime = watchTime;
+        this.releaseYear = releaseYear;
+    }
 
     public void addMovieComment(MovieComment comment) {
         movieComments.add(comment);
@@ -42,5 +53,18 @@ public class Movie {
     public void removeComment(MovieComment comment) {
         movieComments.remove(comment);
         comment.setMovie(null);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return Objects.equals(id, movie.id) && Objects.equals(title, movie.title) && Objects.equals(genre, movie.genre) && Objects.equals(rating, movie.rating) && Objects.equals(watchTime, movie.watchTime) && Objects.equals(releaseYear, movie.releaseYear) && Objects.equals(movieComments, movie.movieComments);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, genre, rating, watchTime, releaseYear, movieComments);
     }
 }

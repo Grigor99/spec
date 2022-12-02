@@ -1,7 +1,6 @@
 package com.example.specification.servcie.impl;
 
 import com.example.specification.domains.Movie;
-import com.example.specification.domains.MovieComment;
 import com.example.specification.repositories.MovieRepository;
 import com.example.specification.repositories.specs.MovieSpecification;
 import com.example.specification.repositories.specs.SearchCriteria;
@@ -33,6 +32,14 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.findByJoin(rate, comment);
     }
 
+    @Override
+    public List<Movie> getByTitle(String name) {
+        return movieRepository.getByTitle(name);
+    }
+    @Override
+    public List<Movie> findByRatingBetween(Double min, Double max) {
+        return movieRepository.findByRatingBetween(min,max);
+    }
 //
 //
 //    @Override

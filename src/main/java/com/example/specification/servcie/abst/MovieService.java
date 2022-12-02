@@ -12,4 +12,10 @@ public interface MovieService {
     List<Movie> findAllByTitleLike(String title);
 
     List<?> findByJoin(Double rate, String comment);
+
+
+
+    List<Movie> getByTitle(String name);
+
+    List<Movie> findByRatingBetween(Double min, Double max);
 }
