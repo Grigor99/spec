@@ -32,6 +32,10 @@ public class MovieController {
         return ResponseEntity.ok(movieService.findByRatingBetween(min, max));
     }
 
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Movie> getById(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok(movieService.findById(id));
+    }
 //    @GetMapping("/{rating}/{comment}")
 //    public ResponseEntity<List<?>> getByJoin(@PathVariable(name = "rating") Double rating,
 //                                             @PathVariable(name = "comment") String comment) {
