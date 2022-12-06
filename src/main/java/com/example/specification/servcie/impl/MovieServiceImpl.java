@@ -1,14 +1,17 @@
 package com.example.specification.servcie.impl;
 
 import com.example.specification.domains.Movie;
+import com.example.specification.exceptions.NotFoundException;
 import com.example.specification.repositories.MovieRepository;
 import com.example.specification.repositories.specs.MovieSpecification;
 import com.example.specification.repositories.specs.SearchCriteria;
 import com.example.specification.servcie.abst.MovieService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +33,12 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<?> findByJoin(Double rate, String comment) {
         return movieRepository.findByJoin(rate, comment);
+    }
+
+    @Override
+    @Cacheable("moviecache")
+    public Movie findById(Long id) {
+        return movieRepository.findById(id).orElseThrow(()-> new NotFoundException("movie.not.found"));
     }
 
     @Override
