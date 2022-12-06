@@ -2,8 +2,10 @@ package com.example.specification.repositories;
 
 import com.example.specification.domains.Movie;
 import com.example.specification.repositories.custom.MovieCustomRepository;
+import com.sun.istack.NotNull;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,7 +16,8 @@ public interface MovieRepository extends CrudRepository<Movie, Long>, MovieCusto
 
     List<Movie> getByTitle(String name);
 
-    Optional<Movie> findById(Long id);
+    @Override
+    Optional<Movie> findById(@NonNull Long id);
 
     List<Movie> findByRatingBetween(Double min,Double max);
 }
