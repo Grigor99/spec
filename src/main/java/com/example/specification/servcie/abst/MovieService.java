@@ -2,16 +2,17 @@ package com.example.specification.servcie.abst;
 
 import com.example.specification.domains.Movie;
 import com.example.specification.repositories.specs.SearchCriteria;
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.impl.JPAQuery;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface MovieService {
     List<Movie> search(List<SearchCriteria> searchCriteriaList);
 
     List<Movie> findAllByTitleLike(String title);
 
-    List<?> findByJoin(Double rate, String comment);
+    JPAQuery<Tuple> findByJoin(Double rate, String comment);
     Movie findById(Long id);
 
 

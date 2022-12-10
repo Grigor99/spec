@@ -6,12 +6,13 @@ import com.example.specification.repositories.MovieRepository;
 import com.example.specification.repositories.specs.MovieSpecification;
 import com.example.specification.repositories.specs.SearchCriteria;
 import com.example.specification.servcie.abst.MovieService;
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<?> findByJoin(Double rate, String comment) {
+    public JPAQuery<Tuple> findByJoin(Double rate, String comment) {
         return movieRepository.findByJoin(rate, comment);
     }
 

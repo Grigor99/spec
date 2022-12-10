@@ -17,7 +17,6 @@ import java.util.Set;
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "movie")
 @Entity(name = "Movie")
 public class Movie {
@@ -31,7 +30,7 @@ public class Movie {
     private Double watchTime;
     @Column(name = "release_year")
     private Integer releaseYear;
-//    @ToString.Exclude
+    //    @ToString.Exclude
     @JsonBackReference
     @OneToMany(mappedBy = "movie", cascade = {CascadeType.MERGE}, orphanRemoval = true)
     private Set<MovieComment> movieComments = new LinkedHashSet<>();
@@ -43,6 +42,16 @@ public class Movie {
         this.rating = rating;
         this.watchTime = watchTime;
         this.releaseYear = releaseYear;
+    }
+
+    public Movie(Long id, String title, String genre, Double rating, Double watchTime, Integer releaseYear, Set<MovieComment> comments) {
+        this.id = id;
+        this.title = title;
+        this.genre = genre;
+        this.rating = rating;
+        this.watchTime = watchTime;
+        this.releaseYear = releaseYear;
+        this.movieComments = new LinkedHashSet<>(comments);
     }
 
     public void addMovieComment(MovieComment comment) {
