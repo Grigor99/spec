@@ -8,5 +8,5 @@ import java.util.List;
 public interface MovieCustomRepository {
     List<Movie> findAllByTitleLike(String title);
 
-    List<Movie> findByJoin(Double rating, String comment);
+    List<Movie> findByJoin(Double rating, String comment1,String comment2,String comment3);
 }

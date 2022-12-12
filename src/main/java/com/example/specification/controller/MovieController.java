@@ -35,10 +35,13 @@ public class MovieController {
     public ResponseEntity<Movie> getById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(movieService.findById(id));
     }
-    @GetMapping("/{rating}/{comment}")
-    public ResponseEntity<List<Movie>> getByJoin(@PathVariable(name = "rating") Double rating,
-                                                 @PathVariable(name = "comment") String comment) {
-        return ResponseEntity.ok(movieService.findByJoin(rating, comment));
+
+    @GetMapping("/byJOIN")
+    public ResponseEntity<List<Movie>> getByJoin(@RequestParam(name = "rating") Double rating,
+                                                 @RequestParam(name = "comment1") String comment1,
+                                                 @RequestParam(name = "comment2") String comment2,
+                                                 @RequestParam(name = "comment3") String comment3) {
+        return ResponseEntity.ok(movieService.findByJoin(rating, comment1,comment2,comment3));
     }
 
 }

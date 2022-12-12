@@ -32,12 +32,10 @@ public class Movie  {
     private Double watchTime;
     @Column(name = "release_year")
     private Integer releaseYear;
-    //    @ToString.Exclude
-//    @JsonBackReference
+
     @JsonManagedReference
     @OneToMany(mappedBy = "movie",fetch = FetchType.LAZY,cascade = {CascadeType.ALL}, orphanRemoval = true)
     @ToString.Exclude
-//    @JsonIgnoreProperties("movie")
     private Set<MovieComment> movieComments = new LinkedHashSet<>();
 
     public Movie(Long id, String title, String genre, Double rating, Double watchTime, Integer releaseYear) {
@@ -49,6 +47,13 @@ public class Movie  {
         this.releaseYear = releaseYear;
     }
 
+    public Movie(String title, String genre, Double rating, Double watchTime, Integer releaseYear) {
+        this.title = title;
+        this.genre = genre;
+        this.rating = rating;
+        this.watchTime = watchTime;
+        this.releaseYear = releaseYear;
+    }
 
     public void addMovieComment(MovieComment comment) {
         movieComments.add(comment);

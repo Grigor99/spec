@@ -1,13 +1,11 @@
 package com.example.specification.domains;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Setter
 @Getter
@@ -23,12 +21,16 @@ public class MovieComment  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String comment;
-    private Integer rank;
     //    @ToString.Exclude
 //    @JsonManagedReference
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Movie movie;
+
+    public MovieComment(String comment) {
+        this.comment = comment;
+    }
 
     @Override
     public boolean equals(Object o) {
