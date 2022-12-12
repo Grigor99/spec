@@ -1,11 +1,12 @@
 package com.example.specification.controller;
 
+import com.example.specification.domains.Movie;
 import com.example.specification.servcie.abst.MovieService;
-import com.querydsl.core.Tuple;
-import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,8 +35,8 @@ public class MovieController {
 //        return ResponseEntity.ok(movieService.findById(id));
 //    }
     @GetMapping("/{rating}/{comment}")
-    public ResponseEntity<JPAQuery<Tuple>> getByJoin(@PathVariable(name = "rating") Double rating,
-                                                     @PathVariable(name = "comment") String comment) {
+    public ResponseEntity<List<Movie>> getByJoin(@PathVariable(name = "rating") Double rating,
+                                                 @PathVariable(name = "comment") String comment) {
         return ResponseEntity.ok(movieService.findByJoin(rating, comment));
     }
 

@@ -2,8 +2,6 @@ package com.example.specification.servcie.abst;
 
 import com.example.specification.domains.Movie;
 import com.example.specification.repositories.specs.SearchCriteria;
-import com.querydsl.core.Tuple;
-import com.querydsl.jpa.impl.JPAQuery;
 
 import java.util.List;
 
@@ -12,7 +10,7 @@ public interface MovieService {
 
     List<Movie> findAllByTitleLike(String title);
 
-    JPAQuery<Tuple> findByJoin(Double rate, String comment);
+    List<Movie> findByJoin(Double rate, String comment);
     Movie findById(Long id);
 
 

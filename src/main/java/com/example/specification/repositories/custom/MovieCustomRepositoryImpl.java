@@ -2,8 +2,6 @@ package com.example.specification.repositories.custom;
 
 
 import com.example.specification.domains.*;
-import com.querydsl.core.Tuple;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,26 +28,14 @@ public class MovieCustomRepositoryImpl implements MovieCustomRepository {
 
     @Override
     @Transactional(readOnly = true)
-    public JPAQuery<Tuple> findByJoin(Double rating, String comment) {
-
-
-//        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+    public List<Movie> findByJoin(Double rating, String comment) {
         QMovie qMovie = movie;
         QMovieComment qMovieComments = movieComment;
-        JPAQuery<Tuple> query = new JPAQuery<>(em);
-
-        return query.select(qMovie,qMovieComments)
-                .from(qMovie)
-                .join(qMovieComments)
-                .on(qMovie.id.eq(qMovieComments.movie.id));
-//        return Collections.unmodifiableList(
-//                queryFactory
-//                        .selectFrom(qMovie)
-//                        .join(qMovie.movieComments, qMovieComments)
-//                        .on(qMovie.id.eq(qMovieComments.movie.id))
-//                        .where(qMovie.rating.gt(rating).and(qMovieComments.comment.likeIgnoreCase("%" + comment + "%")))
-//                        .groupBy(qMovie.title, qMovie.id, qMovieComments.id)
-//                        .orderBy(qMovie.rating.asc())
-//                        .stream().toList());
+        return new JPAQueryFactory(this.em).
+                selectFrom(qMovie).
+                leftJoin(qMovie.movieComments, qMovieComments).
+                on(qMovie.id.eq(qMovieComments.movie.id)).
+                where(qMovie.rating.gt(rating).and(qMovieComments.comment.likeIgnoreCase("%" + comment + "%")))
+                .distinct().fetch();
     }
 }

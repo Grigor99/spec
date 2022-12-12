@@ -1,29 +1,32 @@
 package com.example.specification.domains;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Setter
 @Getter
-//@ToString
+@ToString
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "movie_comment")
 @Entity(name = "Movie_Comment")
-public class MovieComment {
+public class MovieComment  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String comment;
     private Integer rank;
-//    @ToString.Exclude
-    @JsonManagedReference
+    //    @ToString.Exclude
+//    @JsonManagedReference
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     private Movie movie;
 

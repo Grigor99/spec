@@ -1,6 +1,7 @@
 package com.example.specification.domains;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -13,13 +14,14 @@ import java.util.Set;
 @Setter
 @Getter
 @Builder(toBuilder = true)
-//@ToString
+@ToString
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
 @Table(name = "movie")
 @Entity(name = "Movie")
-public class Movie {
+@AllArgsConstructor
+public class Movie  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,8 +33,11 @@ public class Movie {
     @Column(name = "release_year")
     private Integer releaseYear;
     //    @ToString.Exclude
-    @JsonBackReference
-    @OneToMany(mappedBy = "movie", cascade = {CascadeType.MERGE}, orphanRemoval = true)
+//    @JsonBackReference
+    @JsonManagedReference
+    @OneToMany(mappedBy = "movie",fetch = FetchType.LAZY,cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @ToString.Exclude
+//    @JsonIgnoreProperties("movie")
     private Set<MovieComment> movieComments = new LinkedHashSet<>();
 
     public Movie(Long id, String title, String genre, Double rating, Double watchTime, Integer releaseYear) {
@@ -44,15 +49,6 @@ public class Movie {
         this.releaseYear = releaseYear;
     }
 
-    public Movie(Long id, String title, String genre, Double rating, Double watchTime, Integer releaseYear, Set<MovieComment> comments) {
-        this.id = id;
-        this.title = title;
-        this.genre = genre;
-        this.rating = rating;
-        this.watchTime = watchTime;
-        this.releaseYear = releaseYear;
-        this.movieComments = new LinkedHashSet<>(comments);
-    }
 
     public void addMovieComment(MovieComment comment) {
         movieComments.add(comment);
