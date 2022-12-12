@@ -1,8 +1,7 @@
 package com.example.specification.repositories;
 
-import com.example.specification.domains.Movie;
 import com.example.specification.repositories.custom.MovieCustomRepository;
-import com.sun.istack.NotNull;
+import com.example.specification.domains.Movie;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.lang.NonNull;

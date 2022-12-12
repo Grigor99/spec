@@ -1,7 +1,7 @@
 package com.example.specification.controller;
 
 import com.example.specification.domains.Movie;
-import com.example.specification.servcie.abst.MovieService;
+import com.example.specification.service.abst.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

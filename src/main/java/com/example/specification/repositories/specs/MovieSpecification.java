@@ -1,6 +1,7 @@
 package com.example.specification.repositories.specs;
 
 import com.example.specification.domains.Movie;
+import com.example.specification.repositories.enumaration.SearchCriteria;
 import lombok.NonNull;
 import org.springframework.data.jpa.domain.Specification;
 

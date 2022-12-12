@@ -1,7 +1,7 @@
-package com.example.specification.servcie.abst;
+package com.example.specification.service.abst;
 
 import com.example.specification.domains.Movie;
-import com.example.specification.repositories.specs.SearchCriteria;
+import com.example.specification.repositories.enumaration.SearchCriteria;
 
 import java.util.List;
 

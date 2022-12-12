@@ -1,11 +1,11 @@
-package com.example.specification.servcie.impl;
+package com.example.specification.service.impl;
 
 import com.example.specification.domains.Movie;
 import com.example.specification.exceptions.NotFoundException;
 import com.example.specification.repositories.MovieRepository;
 import com.example.specification.repositories.specs.MovieSpecification;
-import com.example.specification.repositories.specs.SearchCriteria;
-import com.example.specification.servcie.abst.MovieService;
+import com.example.specification.repositories.enumaration.SearchCriteria;
+import com.example.specification.service.abst.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
