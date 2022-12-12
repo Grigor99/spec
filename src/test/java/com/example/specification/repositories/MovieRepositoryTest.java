@@ -1,7 +1,6 @@
 package com.example.specification.repositories;
 
 import com.example.specification.domains.Movie;
-import com.example.specification.repositories.MovieRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;

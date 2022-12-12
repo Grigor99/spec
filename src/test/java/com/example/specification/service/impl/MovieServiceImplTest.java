@@ -32,8 +32,7 @@ class MovieServiceImplTest {
         //given
         Movie movie1 = new Movie(null, "Avatar", "action", 5.0, 199D, 1999);
         Movie movie2 = new Movie(null, "Jocker", "action2", 5.0, 199D, 1999);
-        Movie movie3 = new Movie(null, "Jocker", "action2actio", 3.0, 1D, 1999);
-        movieRepository.saveAll(Arrays.asList(movie2, movie1, movie3));
+        movieRepository.saveAll(Arrays.asList(movie2, movie1));
         //when
         List<Movie> movieList1 = movieService.getByTitle("Avatar");
         List<Movie> movieList2 = movieService.getByTitle("Jocker");
@@ -45,7 +44,7 @@ class MovieServiceImplTest {
                 .hasSizeBetween(1, 1);
         assertThat(movieList2)
                 .isNotEmpty()
-                .hasSizeBetween(1, 2);
+                .hasSizeBetween(1, 1);
     }
 
     @Test
