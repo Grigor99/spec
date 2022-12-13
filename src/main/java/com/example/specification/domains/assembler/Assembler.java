@@ -1,6 +1,5 @@
 package com.example.specification.domains.assembler;
 
-import com.example.specification.domains.Movie;
 import com.example.specification.domains.dto.AbstractDTO;
 
 import java.util.Collection;
@@ -12,9 +11,8 @@ public interface Assembler<DTO extends AbstractDTO, Entity> {
     Entity assembleEntity(DTO dto);
 
     Entity assembleEntity(DTO dto, Entity entity);
+
     List<DTO> assembleCollectionDTO(Collection<Entity> entities);
 
     List<Entity> assembleCollection(Collection<DTO> dtos);
-
-
 }

@@ -16,13 +16,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "movie_comment")
 @Entity(name = "Movie_Comment")
-public class MovieComment  {
+public class MovieComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String comment;
-    //    @ToString.Exclude
-//    @JsonManagedReference
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude

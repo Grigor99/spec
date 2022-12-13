@@ -12,11 +12,10 @@ import java.util.Optional;
 
 @Repository
 public interface MovieRepository extends CrudRepository<Movie, Long>, MovieCustomRepository, JpaSpecificationExecutor<Movie> {
-
     List<Movie> getByTitle(String name);
 
     @Override
     Optional<Movie> findById(@NonNull Long id);
 
-    List<Movie> findByRatingBetween(Double min,Double max);
+    List<Movie> findByRatingBetween(Double min, Double max);
 }

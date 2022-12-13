@@ -1,5 +1,6 @@
 package com.example.specification.service.impl;
 
+import com.example.specification.concurrent.ConcurrentExecution;
 import com.example.specification.domains.Movie;
 import com.example.specification.repositories.MovieRepository;
 import com.example.specification.service.abst.MovieService;
@@ -15,7 +16,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class MovieCacheServiceImpl {
+public class MovieCacheServiceImpl implements ConcurrentExecution {
     @Autowired
     private MovieService movieService;
     @MockBean

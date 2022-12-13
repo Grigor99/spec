@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class AbstractAssembler<DTO extends AbstractDTO, Domain> implements Assembler<DTO, Domain> {
-
-
     @Override
     public List<DTO> assembleCollectionDTO(Collection<Domain> domains) {
         return domains.stream().map(this::assembleDTO).collect(Collectors.toList());

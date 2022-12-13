@@ -6,16 +6,12 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 
 import java.util.stream.Stream;
 
-public class RankCommentArgumentProvider implements ArgumentsProvider {
+import static org.junit.jupiter.params.provider.Arguments.of;
 
+
+public class RankCommentArgumentProvider implements ArgumentsProvider {
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
-        return Stream.of(
-                Arguments.of(1D, "good"),
-                Arguments.of(2D, "awesome"),
-                Arguments.of(3D, "wonderful"),
-                Arguments.of(4D, "good")
-
-        );
+        return Stream.of(of(1D, "good"), of(2D, "awesome"), of(3D, "wonderful"), of(4D, "good"));
     }
 }

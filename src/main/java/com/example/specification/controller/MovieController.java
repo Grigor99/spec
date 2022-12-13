@@ -41,7 +41,6 @@ public class MovieController {
                                                  @RequestParam(name = "comment1") String comment1,
                                                  @RequestParam(name = "comment2") String comment2,
                                                  @RequestParam(name = "comment3") String comment3) {
-        return ResponseEntity.ok(movieService.findByJoin(rating, comment1,comment2,comment3));
+        return ResponseEntity.ok(movieService.findByJoin(rating, comment1, comment2, comment3));
     }
-
 }

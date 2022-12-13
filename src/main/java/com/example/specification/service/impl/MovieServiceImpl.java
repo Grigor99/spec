@@ -30,48 +30,23 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> findByJoin(Double rate, String comment1,String comment2,String comment3) {
-        return movieRepository.findByJoin(rate, comment1,comment2,comment3);
+    public List<Movie> findByJoin(Double rate, String comment1, String comment2, String comment3) {
+        return movieRepository.findByJoin(rate, comment1, comment2, comment3);
     }
 
     @Override
     @Cacheable("moviecache")
     public Movie findById(Long id) {
-        return movieRepository.findById(id).orElseThrow(()-> new NotFoundException("movie.not.found"));
+        return movieRepository.findById(id).orElseThrow(() -> new NotFoundException("movie.not.found"));
     }
 
     @Override
     public List<Movie> getByTitle(String name) {
         return movieRepository.getByTitle(name);
     }
+
     @Override
     public List<Movie> findByRatingBetween(Double min, Double max) {
-        return movieRepository.findByRatingBetween(min,max);
+        return movieRepository.findByRatingBetween(min, max);
     }
-//
-//
-//    @Override
-//    public List<Movie> getByRatingAndTitleSearch() {
-//        return movieRepository.findAll(getByRatingAndTitle());
-//    }
-//
-//
-//    public Specification<Movie> getByRatingAndTitle() {
-//        return (root, query, criteriaBuilder) -> {
-//            query.groupBy(root.get("title"), root.get("id")).orderBy(criteriaBuilder.desc(root.get("rating")));
-//            List<Predicate> predicates = new ArrayList<>();
-//            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("rating"), 5.0));
-//            predicates.add(criteriaBuilder.like(root.get("title"), "%" + "Ava" + "%"));
-//            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-//
-//        };
-//    }
-//
-//    @Override
-//    public List<Movie> getTitleLikeAvatar() {
-//        MovieSpecification specification = new MovieSpecification();
-//        specification.add(new SearchCriteria("title", "Avatar", SearchOperation.MATCH));
-//        return movieRepository.findAll(specification);
-//    }
-
 }

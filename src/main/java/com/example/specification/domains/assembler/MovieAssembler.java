@@ -17,11 +17,9 @@ public class MovieAssembler extends AbstractAssembler<MovieDTO, Movie> {
         return dto;
     }
 
-
     @Override
     public Movie assembleEntity(MovieDTO dto) {
-        Movie movie = new Movie();
-        return assembleEntity(dto, movie);
+        return assembleEntity(dto, new Movie());
     }
 
     @Override
@@ -34,5 +32,4 @@ public class MovieAssembler extends AbstractAssembler<MovieDTO, Movie> {
         movie.setWatchTime(dto.getWatchTime());
         return movie;
     }
-
 }

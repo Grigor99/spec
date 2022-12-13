@@ -13,15 +13,15 @@ import java.util.Set;
 
 @Setter
 @Getter
-@Builder(toBuilder = true)
 @ToString
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "movie")
 @Entity(name = "Movie")
-@AllArgsConstructor
-public class Movie  {
+@Builder(toBuilder = true)
+public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,9 +32,8 @@ public class Movie  {
     private Double watchTime;
     @Column(name = "release_year")
     private Integer releaseYear;
-
     @JsonManagedReference
-    @OneToMany(mappedBy = "movie",fetch = FetchType.LAZY,cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true)
     @ToString.Exclude
     private Set<MovieComment> movieComments = new LinkedHashSet<>();
 

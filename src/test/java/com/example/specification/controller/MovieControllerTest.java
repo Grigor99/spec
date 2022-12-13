@@ -1,5 +1,6 @@
 package com.example.specification.controller;
 
+import com.example.specification.concurrent.ConcurrentExecution;
 import com.example.specification.domains.Movie;
 import com.example.specification.exceptions.NotFoundException;
 import com.example.specification.service.abst.MovieService;
@@ -10,7 +11,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -21,20 +21,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
-class MovieControllerTest {
-
+class MovieControllerTest implements ConcurrentExecution {
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private MovieService movieService;
 
     @Test
     void getById() throws Exception {
-
         given(movieService.findById(anyLong())).
                 willReturn(new Movie(1L, "name", "action", 5D, 1999D, 354));
-
         mockMvc.perform(get("/movies/id/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(1L))
@@ -43,18 +39,14 @@ class MovieControllerTest {
                 .andExpect(jsonPath("rating").value(5D))
                 .andExpect(jsonPath("releaseYear").value(354))
                 .andExpect(jsonPath("watchTime").value(1999D));
-
     }
 
     @Test
     void getById_withNotFoundException() throws Exception {
-
         given(movieService.findById(anyLong())).
                 willThrow(NotFoundException.class);
-
         mockMvc.perform(get("/movies/id/1"))
                 .andExpect(status().isNotFound());
-
     }
 
     @Test
@@ -63,7 +55,6 @@ class MovieControllerTest {
         Movie movie2 = new Movie(2L, "Transformers", "Action", 6D, 13339D, 1998);
         given(movieService.findByJoin(anyDouble(), anyString(), anyString(), anyString())).
                 willReturn(Arrays.asList(movie1, movie2));
-
         mockMvc.perform(get("/movies/byJOIN?rating=4&comment1=good&comment2=awesome&comment3=wonderful"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))

@@ -1,12 +1,12 @@
 package com.example.specification.service.impl;
 
+import com.example.specification.concurrent.ConcurrentExecution;
 import com.example.specification.domains.Movie;
 import com.example.specification.domains.MovieComment;
 import com.example.specification.domains.parametrs.RankCommentArgumentProvider;
 import com.example.specification.exceptions.NotFoundException;
 import com.example.specification.repositories.MovieRepository;
 import com.example.specification.service.abst.MovieService;
-import org.assertj.core.api.BDDAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,10 +23,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @Transactional
-class MovieServiceImplTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+class MovieServiceImplTest implements ConcurrentExecution {
     @Autowired
     private MovieRepository movieRepository;
     @Autowired
@@ -65,24 +64,20 @@ class MovieServiceImplTest {
 
     @ParameterizedTest
     @ArgumentsSource(RankCommentArgumentProvider.class)
-    void findByJoin(double number,String comment) {
+    void findByJoin(double number, String comment) {
         //given
         MovieComment movieComment1 = new MovieComment("good movie");
         MovieComment movieComment2 = new MovieComment("wonderful movie ,I enjoyed");
         MovieComment movieComment3 = new MovieComment("awesome movie ,I enjoyed");
-
         Movie movie = new Movie("Terminator", "Action", 6D, 1989D, 1999);
-        movie.setMovieComments(Set.of(movieComment1, movieComment2,movieComment3));
+        movie.setMovieComments(Set.of(movieComment1, movieComment2, movieComment3));
         movieComment1.setMovie(movie);
         movieComment2.setMovie(movie);
         movieComment3.setMovie(movie);
-
         movieRepository.save(movie);
-
         //when
         List<Movie> list = movieService.findByJoin(number, comment, "", "");
-
         //then
-        then(list).isNotEmpty().hasSizeBetween(1,1);
+        then(list).isNotEmpty().hasSizeBetween(1, 1);
     }
 }

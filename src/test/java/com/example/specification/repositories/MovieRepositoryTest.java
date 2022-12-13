@@ -1,10 +1,9 @@
 package com.example.specification.repositories;
 
+import com.example.specification.concurrent.ConcurrentExecution;
 import com.example.specification.domains.Movie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -14,8 +13,7 @@ import java.util.*;
 import static org.assertj.core.api.BDDAssertions.then;
 
 @DataJpaTest
-@Execution(ExecutionMode.CONCURRENT)
-class MovieRepositoryTest {
+class MovieRepositoryTest implements ConcurrentExecution {
     @Autowired
     private MovieRepository movieRepository;
     @Autowired
