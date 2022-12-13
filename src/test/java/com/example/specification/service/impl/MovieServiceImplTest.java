@@ -1,21 +1,27 @@
 package com.example.specification.service.impl;
 
 import com.example.specification.domains.Movie;
+import com.example.specification.domains.MovieComment;
+import com.example.specification.domains.parametrs.RankCommentArgumentProvider;
 import com.example.specification.exceptions.NotFoundException;
 import com.example.specification.repositories.MovieRepository;
 import com.example.specification.service.abst.MovieService;
 import org.assertj.core.api.BDDAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -54,6 +60,29 @@ class MovieServiceImplTest {
         //when
         Throwable throwable = catchThrowable(() -> movieService.findById(id));
         //then
-        BDDAssertions.then(throwable).isInstanceOf(NotFoundException.class).hasMessageContaining("movie.not.found");
+        then(throwable).isInstanceOf(NotFoundException.class).hasMessageContaining("movie.not.found");
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(RankCommentArgumentProvider.class)
+    void findByJoin(double number,String comment) {
+        //given
+        MovieComment movieComment1 = new MovieComment("good movie");
+        MovieComment movieComment2 = new MovieComment("wonderful movie ,I enjoyed");
+        MovieComment movieComment3 = new MovieComment("awesome movie ,I enjoyed");
+
+        Movie movie = new Movie("Terminator", "Action", 6D, 1989D, 1999);
+        movie.setMovieComments(Set.of(movieComment1, movieComment2,movieComment3));
+        movieComment1.setMovie(movie);
+        movieComment2.setMovie(movie);
+        movieComment3.setMovie(movie);
+
+        movieRepository.save(movie);
+
+        //when
+        List<Movie> list = movieService.findByJoin(number, comment, "", "");
+
+        //then
+        then(list).isNotEmpty().hasSizeBetween(1,1);
     }
 }
