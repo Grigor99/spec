@@ -19,6 +19,10 @@ public class MovieController {
     public ResponseEntity<List<Movie>> search(@RequestBody List<SearchCriteria> searchCriteriaList) {
         return ResponseEntity.ok(movieService.search(searchCriteriaList));
     }
+    @GetMapping("/lock/{id}")
+    public ResponseEntity<Movie> findByIdWithReadLock(@PathVariable(name = "id")Long id) {
+        return ResponseEntity.ok(movieService.findByIdWithReadLock(id));
+    }
 
     @GetMapping("/{title}")
     public ResponseEntity<List<Movie>> getByTitle(@PathVariable(name = "title") String title) {
