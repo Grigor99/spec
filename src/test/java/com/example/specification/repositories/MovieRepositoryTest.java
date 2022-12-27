@@ -55,4 +55,18 @@ class MovieRepositoryTest implements ConcurrentExecution {
         then(fromDb.size()).isEqualTo(2);
         then(persisted.size()).isEqualTo(fromDb.size());
     }
+
+    @Test
+    void findByIdWithReadLock() {
+
+        //given
+        Movie movie = new Movie(null, "name", "action", 5.0, 199D, 1999);
+        Movie persisted = testEntityManager.persistFlushFind(movie);
+
+        //when
+        Movie saved = movieRepository.findByIdWithReadLock(1L);
+        //then
+        then(saved.getId()).isNotNull();
+        then(saved).isEqualTo(persisted);
+    }
 }

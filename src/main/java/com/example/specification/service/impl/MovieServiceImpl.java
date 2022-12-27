@@ -9,7 +9,6 @@ import com.example.specification.service.abst.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,11 +23,12 @@ public class MovieServiceImpl implements MovieService {
         searchCriteriaList.stream().map(criteria -> new SearchCriteria(criteria.key(), criteria.value(), criteria.searchOperation())).forEach(specification::add);
         return movieRepository.findAll(specification);
     }
+
     @Override
-    @Transactional
     public Movie findByIdWithReadLock(Long id) {
         return movieRepository.findByIdWithReadLock(id);
     }
+
     @Override
     public List<Movie> findAllByTitleLike(String title) {
         return movieRepository.findAllByTitleLike(title);
@@ -40,7 +40,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    @Cacheable("moviecache")
+    @Cacheable("movie_cache")
     public Movie findById(Long id) {
         return movieRepository.findById(id).orElseThrow(() -> new NotFoundException("movie.not.found"));
     }
