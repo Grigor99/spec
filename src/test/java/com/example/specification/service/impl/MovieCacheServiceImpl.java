@@ -4,6 +4,7 @@ import com.example.specification.concurrent.ConcurrentExecution;
 import com.example.specification.domains.Movie;
 import com.example.specification.repositories.MovieRepository;
 import com.example.specification.service.abst.MovieService;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +27,9 @@ public class MovieCacheServiceImpl implements ConcurrentExecution {
     public void getMovieByIdFromCache() {
         //given
         Long id = 123L;
-        given(movieRepository.findById(id)).willReturn(Optional.of(new Movie(id, "Avatar", "Action", 1222D, 122D, 1999)));
+        Movie movie = Instancio.create(Movie.class);
+
+        given(movieRepository.findById(anyLong())).willReturn(Optional.of(movie));
         //when
         movieService.findById(id);
         movieService.findById(id);

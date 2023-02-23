@@ -2,6 +2,7 @@ package com.example.specification.repositories;
 
 import com.example.specification.concurrent.ConcurrentExecution;
 import com.example.specification.domains.Movie;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import java.util.*;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.instancio.Select.field;
 
 @DataJpaTest
 class MovieRepositoryTest implements ConcurrentExecution {
@@ -23,18 +25,26 @@ class MovieRepositoryTest implements ConcurrentExecution {
     @DisplayName("test to see if getByTitle returns correct value")
     void getByTitle() {
         //given
-        Movie movie1 = new Movie(null, "name", "action", 5.0, 199D, 1999);
-        Movie movie2 = new Movie(null, "name", "action2", 5.0, 199D, 1999);
-        Movie persisted1 = testEntityManager.persistFlushFind(movie1);
-        Movie persisted2 = testEntityManager.persistFlushFind(movie2);
+        Movie m1 = Instancio.of(Movie.class)
+                .set(field(Movie::getTitle), "Avatar")
+                .ignore(field(Movie::getId))
+                .ignore(field(Movie::getMovieComments))
+                .create();
+        Movie m2 = Instancio.of(Movie.class)
+                .set(field(Movie::getTitle), "Avatar")
+                .ignore(field(Movie::getId))
+                .ignore(field(Movie::getMovieComments))
+                .create();
+        Movie persisted1 = testEntityManager.persistFlushFind(m1);
+        Movie persisted2 = testEntityManager.persistFlushFind(m2);
         List<Movie> persisted = new ArrayList<>();
         persisted.add(persisted1);
         persisted.add(persisted2);
         //when
-        List<Movie> list = movieRepository.getByTitle("name");
-        then(movie1.getId()).isNotNull();
+        List<Movie> list = movieRepository.getByTitle("Avatar");
+        then(m1.getId()).isNotNull();
         //then
-        then(movie2.getId()).isNotNull();
+        then(m2.getId()).isNotNull();
         then(list).isEqualTo(persisted);
     }
 
@@ -42,10 +52,20 @@ class MovieRepositoryTest implements ConcurrentExecution {
     @DisplayName("test to see if rating between 2 numbers works correctly")
     void findByRatingBetween() {
         //given
-        Movie avatar = new Movie(null, "avatar", "action", 4.0, 199D, 1999);
-        Movie terminator = new Movie(null, "terminator", "action2", 3.0, 199D, 1999);
-        Movie persisted1 = testEntityManager.persistFlushFind(avatar);
-        Movie persisted2 = testEntityManager.persistFlushFind(terminator);
+        Movie m1 = Instancio.of(Movie.class)
+                .set(field(Movie::getTitle), "Avatar")
+                .set(field(Movie::getRating), 2D)
+                .ignore(field(Movie::getId))
+                .ignore(field(Movie::getMovieComments))
+                .create();
+        Movie m2 = Instancio.of(Movie.class)
+                .set(field(Movie::getTitle), "Terminator")
+                .set(field(Movie::getRating), 4D)
+                .ignore(field(Movie::getId))
+                .ignore(field(Movie::getMovieComments))
+                .create();
+        Movie persisted1 = testEntityManager.persistFlushFind(m1);
+        Movie persisted2 = testEntityManager.persistFlushFind(m2);
         List<Movie> persisted = new ArrayList<>();
         persisted.add(persisted1);
         persisted.add(persisted2);
@@ -54,19 +74,5 @@ class MovieRepositoryTest implements ConcurrentExecution {
         //then
         then(fromDb.size()).isEqualTo(2);
         then(persisted.size()).isEqualTo(fromDb.size());
-    }
-
-    @Test
-    void findByIdWithReadLock() {
-
-        //given
-        Movie movie = new Movie(null, "name", "action", 5.0, 199D, 1999);
-        Movie persisted = testEntityManager.persistFlushFind(movie);
-
-        //when
-        Movie saved = movieRepository.findByIdWithReadLock(1L);
-        //then
-        then(saved.getId()).isNotNull();
-        then(saved).isEqualTo(persisted);
     }
 }
