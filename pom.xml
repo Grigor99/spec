@@ -111,7 +111,8 @@
                 </executions>
             </plugin>
 
-        </plugins>
+        </plugins> 
+             <finalName>devops-integration</finalName>     
     </build>
 
 </project>
