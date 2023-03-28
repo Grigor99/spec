@@ -1,4 +1,4 @@
-FROM openjdk:17-alpine
+FROM openjdk:11-alpine
 VOLUME /main-app
 ADD target/specification-0.0.1-SNAPSHOT.jar devops-integration.jar
 EXPOSE 8080
